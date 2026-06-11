@@ -1,0 +1,11 @@
+#invalidEmail, #passwordInvalid{
+    color: red;
+    display: none;
+    font-size: 12px
+}
+
+#invalidEmail.error, #passwordInvalid.error{
+    color: red;
+    display: block;
+    font-size: 12px
+}

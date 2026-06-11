@@ -1,0 +1,41 @@
+
+<!-- Native Select has already provides accessibility, keyboard navigation, focus management, and screen reader support. 
+ but we can't use this for complex drodpowns. such as which is having search box, multi select , async loading, 
+ virtualized huge list etc. -->
+<!-- <div>
+    <label for="city">IT Hub</label>
+    <select id="city">
+        <option value="chennai">Chennai</option>
+        <option value="kolkata">Kolkata</option>
+        <option value="pune">Pune</option>
+        <option value="hyderabad">Hyderabad</option>
+    </select>
+</div> -->
+
+<!-- Custom Drodown down -->
+ <html>
+    <head>
+        <link href="./dropdown.css" rel="stylesheet">
+    </head>
+    <body>
+         <form class="form-wrapper">
+            <label for="select">Custom Select Box</label>
+            <div>
+                 <button 
+                    class="select-btn"
+                    role="combobox"
+                    id="select"
+                    value="select"
+                    aria-controls="listbox"
+                    aria-haspopup="listbox"
+                    tabindex="0"
+                    aria-expanded="false">Select</button>
+                <ul role="listbox" id="listbox" class="options-wrapper">
+                    <li role="option">Option 1</li>
+                    <li role="option">Option 2</li>
+                    <li role="option">Option 3</li>
+                </ul>
+            </div>
+        </form>
+    </body>
+ </html>

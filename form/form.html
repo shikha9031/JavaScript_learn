@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <script src="./form.js" type="module"></script>
+        <link rel="stylesheet" href="./form.css">
+    </head>
+    <body>
+        <form id="userForm">
+            <div>
+                 <label for="email">Email</label>
+                 <input type="email" id="email" name="email" required>
+                 <span id="invalidEmail">Email is invalid</span>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" >
+                <span id="passwordInvalid">Password is invalid</span>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </body>
+</html>

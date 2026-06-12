@@ -6,8 +6,8 @@ class TaskScheduler {
     }
     getNextTask(){
         if(this.runningTasks < this.concurrency && this.__waitingQueue.length > 0){
-            let task = this.__waitingQueue.shift();
-            this.addTask(task);
+            let nextTask = this.__waitingQueue.shift();
+            this.nextTask();
         }
     }
     addTask(task) {
@@ -32,7 +32,7 @@ class TaskScheduler {
                 __taskRunner.call(this);
             }
             else {
-                this.__waitingQueue.push(task);
+                this.__waitingQueue.push(__taskRunner.bind(this));
             }
         })
     }
@@ -57,3 +57,9 @@ function chat() {
     })
 }
 
+
+const schedular = new TaskSchedular(2);
+schedular.addTask(()=> new Promise((resolve, reject) => setTimeout(()=> console.log('Task 1'), 1000)));
+schedular.addTask(()=> new Promise((resolve, reject) => setTimeout(()=> console.log('Task 2'), 500)));
+schedular.addTask(()=> new Promise((resolve, reject) => setTimeout(()=> console.log('Task 3'), 300)));
+schedular.addTask(()=> new Promise((resolve, reject) => setTimeout(()=> console.log('Task 4'), 400)));

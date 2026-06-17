@@ -89,3 +89,4 @@ let obj = {
 }
 const output = pipe(obj)(1,1,1);
 console.log(output);
+

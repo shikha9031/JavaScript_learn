@@ -249,3 +249,134 @@ int main(){
 
 
 }
+// number of Islands
+
+class Solution {
+public:
+
+
+    void dfs(int i, int j, int n, int m, vector<vector<char>>&grid, vector<vector<int>>&vis){
+
+        vis[i][j] = 1;
+
+
+        int X[4] = {-1, 0, 0, 1}; //ROW 
+        int Y[4] = {0, -1, 1, 0}; //COL
+        // UP, LEFT, RIGHT, DOWN
+
+        for(int k = 0; k<4; k++){
+            int newX = i + X[k];
+            int newY = j + Y[k];
+
+            // newX < no of rows 
+            // newX >= 0
+
+            // newY < no of cols
+            // newY >= 0
+
+            // when you are seeing a piece of land
+            // it should be unvisited
+
+            if(newX >= 0 and newX < n and newY >= 0 and newY < m and grid[newX][newY] == '1' and vis[newX][newY] == 0){
+                dfs(newX, newY, n, m, grid, vis);
+            }
+
+        }
+
+
+    }
+
+
+
+
+
+    int numIslands(vector<vector<char>>& grid) {
+        
+              int n = grid.size();
+              int m = grid[0].size();
+
+              vector<vector<int>>vis(n, vector<int>(m ,0));
+
+              int islands = 0;
+
+              for(int i = 0; i<n; i++){
+                for(int j = 0; j<m; j++){
+
+                    // it should be piece of land 
+                    // it should be unvisited
+
+                    if(grid[i][j] == '1' and vis[i][j] == 0){
+                        islands++;
+                        dfs(i, j, n, m, grid, vis);
+                    }
+
+                }
+              }
+
+              return islands;
+
+
+    }
+};
+
+//weighted adjacency list
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class graph{
+
+    map<int, vector<pair <int, int>> >adjList;
+    int numOfNodes;
+
+    public : 
+
+    graph(int n){
+        numOfNodes = n;
+    }
+
+    void addEdge(int node1, int node2, int wt){
+        adjList[node1].push_back({node2, wt});
+        adjList[node2].push_back({node1, wt});
+    }
+
+    void printGraph(){
+
+        for(auto pair : adjList){
+            int node = pair.first;
+
+            cout << node << " -> " ;
+
+            for(auto nbr : pair.second){
+                int neighbor = nbr.first;
+                int wt = nbr.second;
+
+                cout << neighbor << "," << wt << "  ";
+            }
+            cout << endl;
+        }
+
+    }
+
+
+};
+
+int main(){
+
+    int nodes, edges;
+    cin >> nodes >> edges;
+
+    graph g(nodes);
+
+    for(int i = 0; i < edges; i++){
+        int node1, node2, wt;
+        cin >> node1 >> node2 >> wt;
+
+        g.addEdge(node1, node2, wt);
+    }
+
+    g.printGraph();
+
+
+
+}

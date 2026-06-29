@@ -120,3 +120,119 @@ events.subscribeOnceAsync("new-user").then(function (payload) {
 events.publish("new-user", "Foo Once Async");
 //output: "Sending Q2 News to: Foo Once Async"
 //output: "I am invoked once Foo Once Async"
+
+
+//class based approach
+
+class Events{
+    constructor(){
+        this.subscriptionsList = new Map();
+        this.subscriptionsListOnce = new Map();
+        this.subscriptionsListAsync = new Map();
+    }
+
+    subscribe(event, callback){
+        if(!this.subscriptionsList.has(event)){
+            this.subscriptionsList.set(event, []);
+        }
+        this.subscriptionsList.get(event).push(callback);
+
+        return{
+            remove : ()=>{
+                let existingCallback = this.subscriptionsList.get(event);
+                const filterList = existingCallback.filter((e)=> e !== callback);
+                this.subscriptionsList.set(event, filterList);
+            }
+        }
+    }
+    subscribeOnce(event, callback){
+         if(!this.subscriptionsListOnce.has(event)){
+            this.subscriptionsListOnce.set(event, []);
+        }
+        this.subscriptionsListOnce.get(event).push(callback);
+    }
+    subscribeAsync(event){
+        return new Promise((resolve)=>{
+            if(!this.subscriptionsListAsync.has(event)){
+                this.subscriptionsListAsync.set(event, []);
+            }
+            this.subscriptionsListAsync.get(event).push(resolve);
+        })
+    }
+    publish(name, data){
+        let callbackSubsribe = this.subscriptionsList.get(name) || [];
+        callbackSubsribe.forEach((event)=>{
+            event(data);
+        });
+        let callbackSubsribeOnce = this.subscriptionsListOnce.get(name) || [];
+        callbackSubsribeOnce.forEach((event)=>{
+            event(data);
+        })
+        this.subscriptionsListOnce.delete(name);
+
+        let callbackSubsribeOnceAsync = this.subscriptionsListAsync.get(name) || [];
+        callbackSubsribeOnceAsync.forEach((event) => {
+            event(data);
+        })
+        this.subscriptionsListAsync.delete(name);
+    }
+
+    publishAll(data) {
+        for(let [key, value] of this.subscriptionsList){
+            if(value.length > 0){
+                value.forEach((event)=>{
+                    event(data);
+                })
+            }
+        }
+    }
+}
+
+// Test cases
+const events = new Events();
+
+const newUserNewsSubscription = events.subscribe("new-user", function (payload) {
+  console.log(`Sending Q1 News to: ${payload}`);
+});
+
+events.publish("new-user", "Jhon");
+
+//output: "Sending Q1 News to: Jhon"
+
+const newUserNewsSubscription2 = events.subscribe("new-user", function (payload) {
+  console.log(`Sending Q2 News to: ${payload}`);
+});
+
+events.publish("new-user", "Doe");
+
+//output: "Sending Q1 News to: Doe"
+//output: "Sending Q2 News to: Doe"
+
+newUserNewsSubscription.remove(); // Q1 news is removed
+
+events.publish("new-user", "Foo");
+//output: "Sending Q2 News to: Foo"
+
+events.publishAll("FooBar");
+//output: "Sending Q2 News to: FooBar"
+
+events.subscribeOnce("new-user", function (payload) {
+  console.log(`I am invoked once ${payload}`);
+});
+
+events.publish("new-user", "Foo Once");
+//output: "Sending Q2 News to: Foo Once" - normal event
+//output: "I am invoked once Foo Once" - once event
+
+events.publish("new-user", "Foo Twice");
+//output: "Sending Q2 News to: Foo Twice" - normal event
+// once event should not invoke for second time
+
+
+events.subscribeAsync("new-user").then(function (payload) {
+  console.log(`I am invoked once ${payload}`);
+});
+
+events.publish("new-user", "Foo Once Async");
+//output: "Sending Q2 News to: Foo Once Async"
+//output: "I am invoked once Foo On

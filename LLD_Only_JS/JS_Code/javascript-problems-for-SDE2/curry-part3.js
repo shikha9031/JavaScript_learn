@@ -1,6 +1,5 @@
 function add(...args){
     //store current argument;
-    debugger;
     let sum = args;
     function resultFn(...args2){
         //merge two new arguments

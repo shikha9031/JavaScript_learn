@@ -1,42 +1,32 @@
-const QueueCallbacks = function(order = 'FIFO', concurrentTasks = 2, queueLimit = Infinity){
-  this.order = order;
-  this.allowedConcurrentTasks = concurrentTasks;
-  this.queueLimit = queueLimit;
-  this.callbacksQueue = [];
-  this.ongoingExecution = 0;
-  
-  this.process = (callback) => {
-    // if there less than 2 callbacks are being executed, execute the callback immediately
-    // once the callback execution has begun, update the ongoing execution count
-    // similar once the execution is done, update the onging execution count and trigger executing the next callbacks
-    if(this.ongoingExecution < this.allowedConcurrentTasks){
-      this.ongoingExecution++;
-      callback.then((i) => {
-        console.log(i);
-      }).finally(() => {
-        this.ongoingExecution--;
-        executeNext();
-      });
+class AsyncCallbacksClass{
+    constructor(order, concurrentTasks = 2){
+        this.callBackqueue = [];
+        this.ongoingExecution = 0;
+        this.order = order;
+        this.allowedConcurrentTask = concurrentTasks;
     }
-    // if more than 2 callbacks are being executed, store them into the queue
-    // store no more than 6 items into the queue
-    else{
-      if(this.callbacksQueue.length < this.queueLimit){
-      this.callbacksQueue.push(callback);
+    process(cb){
+        if(this.ongoingExecution<this.allowedConcurrentTask){
+            this.ongoingExecution++;
+            cb.then((idx)=>{
+                console.log(idx)
+            }).finally(()=>{
+                this.ongoingExecution--;
+                this.executeNext();
+            })
+        }
+        else{
+            if(this.callBackqueue.length <6){
+                this.callBackqueue.push(cb);
+            }
+        }
     }
-   }
-  }
-  
-  const executeNext = () => {
-    // if there are items in the callbacks queue and there is room for execution
-    if(this.callbacksQueue.length > 0 && this.ongoingExecution < this.allowedConcurrentTasks){
-      // get the next callback depending upon the order
-      let nextCallback = this.order === 'LIFO' ? this.callbacksQueue.pop() : this.callbacksQueue.shift();
-      
-      // process the next callback
-      this.process(nextCallback);
-    }  
-  };
+    executeNext(){
+        if(this.callBackqueue.length>0 && this.ongoingExecution<this.allowedConcurrentTask){
+            let nextTask = this.order === 'LIFO' ? this.callBackqueue.pop(): this.callBackqueue.shift();
+            this.process(nextTask);
+        }
+    }
 }
 
 let dummyApi = (index) => {

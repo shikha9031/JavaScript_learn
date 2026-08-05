@@ -1,16 +1,16 @@
-// function composeAsync(...callbacks) {
-//     return async function (...args) {
-//         const reversed = [...callbacks].reverse();
+function composeAsync(...callbacks) {
+    return async function (...args) {
+        const reversed = [...callbacks].reverse();
 
-//         let result = await reversed[0](...args);
+        let result = await reversed[0](...args);
 
-//         for (let i = 1; i < reversed.length; i++) {
-//             result = await reversed[i](result);
-//         }
+        for (let i = 1; i < reversed.length; i++) {
+            result = await reversed[i](result);
+        }
 
-//         return result;
-//     };
-// }
+        return result;
+    };
+}
 // function composeAsync(...callbacks) {
 //     return function (...args) {
 //         const reversed = [...callbacks].reverse();

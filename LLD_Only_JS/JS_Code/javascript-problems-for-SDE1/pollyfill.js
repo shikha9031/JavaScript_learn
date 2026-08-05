@@ -1,4 +1,26 @@
 
+
+Array.prototype.filterPolyfill = function(cb, thisArgs){
+    if(typeof cb !== 'function'){
+        return new Error('Please provide valid function');
+    }
+    const arr = this;
+    let result = [];
+    arr.forEach((item, idx)=>{
+        let res = cb.call(thisArgs, item, idx, arr);
+        if(res){
+            result.push(item);
+        }
+    })
+    return result;
+}
+
+const arr = [1, 2, 3, 4, 5, 6];
+const filtered = arr.filterPolyfill((e)=> e%2 === 0);
+console.log(filtered);
+
+
+
 Array.prototype.myMap = function(cb, thisArgs){
     if(typeof cb !== 'function'){
         return new TypeError(cb + " is not a function.");
@@ -18,24 +40,20 @@ const arr = [1, 2, 3];
 const multipliedArr = arr.myMap((e) => e * 2);
 console.log(multipliedArr);
 
-const groupBy = (values, keyFinder) => {
-  // using reduce to aggregate values
-  return values.reduce((a, b) => {
-    // depending upon the type of keyFinder
-    // if it is function, pass the value to it
-    // if it is a property, access the property
-    const key = typeof keyFinder === 'function' ? keyFinder(b) : b[keyFinder];
-    
-    // aggregate values based on the keys
-    if(!a[key]){
-      a[key] = [b];
-    }else{
-      a[key] = [...a[key], b];
-    }
-    
-    return a;
-  }, {});
-};
+function groupBy(args, func){
+    let result = {};
+    args.forEach((item)=>{
+        let key = typeof func === 'function'? func(item): item[func];
+        if(result[key]){
+            result[key].push(item);
+        }
+        else{
+            result[key] = [item];
+        }
+    });
+    console.log(result);
+    return result;
+}
 
 console.log(groupBy([6.1, 4.2, 6.3], Math.floor)); 
 console.log(groupBy(["one", "two", "three"], "length")); 

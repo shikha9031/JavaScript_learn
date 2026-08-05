@@ -31,11 +31,24 @@ function toggle(...args){
         return arr[current];
     }
 }
+// my solution
+// function toggle(...args){
+//     let arg = args;
+//     let i = 0;
+//     return function(){
+//         let idx = i%args.length;
+//         i++;
+//         return args[idx];
+//     }
+// }
+
+// let hello = toggle("on", "off");
 
 let onOff = toggle("on", "off", 'switch');
 console.log(onOff());
 console.log(onOff());
 console.log(onOff());
+
 
 // Flatten An Array
 function getFlattenArrRecursion(arr, result){

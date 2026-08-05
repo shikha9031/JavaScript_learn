@@ -16,6 +16,24 @@ publisherSubscriber.prototype.fire = function(...args){
     })
 }
 
+class Observable{
+    constructor(){
+        this.subsriberArr = [];
+    }
+    subscribe(fn){
+        this.subsriberArr.push(fn);
+    }
+    unsubscribe(fn){
+        this.subsriberArr = this.subsriberArr.filter((item)=> item !== fn);
+    }
+    notify(msg){
+         this.subsriberArr.forEach((item)=>{
+            item(msg);
+         })
+    }
+}
+
+
 //Input:
 // 1st observer
 const moveHandler = function (item) {

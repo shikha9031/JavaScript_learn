@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>progress-bars</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        .wrapper {
+            width: 100%;
+            background-color: lightgray;
+            height: 12px;
+            margin-top: 0.5rem;
+        }
+
+        .progress {
+            background-color: green;
+            height: 12px;
+            margin-top: 0.5rem;
+            transform: scaleX(0); /* "start with nothing visible horizontally" */
+            transform-origin: left; /* "grow from the left side" */
+            transition: transform 2000ms linear; /* "animate the growth for 2 seconds at constant speed" */
+        }
+
+        .progess-bar__fill--running {
+            transform: scaleX(1);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        const parent = document.querySelector('#app');
+        parent.innerHTML = '<button type="button">Add</button>';
+
+        const button = document.querySelector('button');
+        button.addEventListener("click", () => {
+            addProgressBar();
+        })
+
+
+        function addProgressBar() {
+            let wrapper = document.createElement('div');
+            wrapper.classList.add("wrapper");
+
+            let progress = document.createElement('div');
+            progress.classList.add("progress");
+
+            wrapper.append(progress);
+            parent.append(wrapper);
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => progress.classList.add('progess-bar__fill--running'));
+            })
+        }
+
+    </script>
+</body>
+
+</html>

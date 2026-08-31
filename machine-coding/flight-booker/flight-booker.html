@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <form class="flight-booker">
+      <select aria-label="Flight type" name="flight-type">
+        <option value="one-way">One-way flight</option>
+        <option value="round-trip">Round-trip flight</option>
+      </select>
+      <input
+        aria-label="Departure date"
+        name="departure"
+        required
+        type="date" />
+      <input
+        aria-label="Return date"
+        name="returnFlight"
+        type="date"
+        id="returnFlight"
+        hidden />
+      <button type="submit">Book</button>
+    </form>
+    <script type="module" src="src/index.js"></script>
+  </body>
+</html>

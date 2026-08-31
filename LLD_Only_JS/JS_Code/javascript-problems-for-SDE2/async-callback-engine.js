@@ -39,16 +39,16 @@ let dummyApi = (index) => {
 
 //Input:
 const asyncCallbacks = new QueueCallbacks('FIFO', 2, 8);
-asyncCallbacks.process(dummyApi(1));
-asyncCallbacks.process(dummyApi(2));
-asyncCallbacks.process(dummyApi(6));
-asyncCallbacks.process(dummyApi(4));
-asyncCallbacks.process(dummyApi(5));
-asyncCallbacks.process(dummyApi(6));
-asyncCallbacks.process(dummyApi(7));
-asyncCallbacks.process(dummyApi(8));
-asyncCallbacks.process(dummyApi(9));
-asyncCallbacks.process(dummyApi(10));
+asyncCallbacks.process(()=> dummyApi(1));
+asyncCallbacks.process(() => dummyApi(2));
+asyncCallbacks.process(() => dummyApi(6));
+asyncCallbacks.process(() => dummyApi(4));
+asyncCallbacks.process(() => dummyApi(5));
+asyncCallbacks.process(() => dummyApi(6));
+asyncCallbacks.process(() => dummyApi(7));
+asyncCallbacks.process(() => dummyApi(8));
+asyncCallbacks.process(() => dummyApi(9));
+asyncCallbacks.process(() => dummyApi(10));
 
 //Output:
 1 // this will execute first

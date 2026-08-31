@@ -17,8 +17,11 @@ const singleton = function(){
     }
 }
 
-let object1 = singleton.getInstance();
-let object2 = singleton.getInstance();
+
+let singletonInstance = singleton();
+
+let object1 = singletonInstance.getInstance();
+let object2 = singletonInstance.getInstance();
 console.log(object1 === object2);
 
 

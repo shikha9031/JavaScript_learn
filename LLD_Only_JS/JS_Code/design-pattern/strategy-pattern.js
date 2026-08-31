@@ -6,6 +6,9 @@
  * Context: Maintains a reference to a Strategy object and delegates the algorithm's execution to the currently set Strategy.
  */
 
+/**
+ * If a class extends another class and has its own constructor, it must call super() before using this.
+ */
 //Simple Example
 
 // Strategy interface
